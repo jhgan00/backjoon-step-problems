@@ -9,15 +9,27 @@
 
 
 def move(x, src=1, dst=3):
-    if x == 1:
-        return [(src, dst)]
-    else:
-        side_dst = ({1, 2, 3} - {src, dst}).pop()
-        return move(x-1, src, side_dst) + [(src, dst)] + move(x-1, side_dst, dst)
+    """
+    :param x: int, 탑이 현재 x 층으로 쌓여있음
+    :param src: int, x층 탑의 현재 포지션
+    :param dst: int, x층 탑을 이동시킬 포지션
+    :return: list[tuple], 이동 순서
+    """
+
+    if x == 1:  # 만약 x가 1이면
+        return [(src, dst)]  # 어느 탑 위든지 바로 올라갈 수 있음. 즉 원래 포지션에서 목적 포지션으로 바로 이동하면 된다.
+
+    else:  # 만약 x가 1이 아니면 다음과 같은 절차로 진행
+        # 1. 2층부터 꼭대기까지의 원판, 즉 (x-1)층의 탑을 목적 포지션이 아닌 나머지 하나의 포지션(side_dst)에 쌓는다.
+        # 2. 1층의 원판을 목적 포지션으로 이동시킨다.
+        # 3. side_dst 에 쌓아둔 (x-1)층의 탑을 목적 포지션으로 옮긴다.
+
+        side_dst = ({1, 2, 3} - {src, dst}).pop()  # side_dst 는 현재 포지션, 목적 포지션을 제외하고 남는 나머지 포지션
+        return move(x-1, src, side_dst) + [(src, dst)] + move(x-1, side_dst, dst)  # 왼쪽부터 1번, 2번, 3번의 과정
 
 
 n = int(input())
 steps = move(n)
 print(len(steps))
-for step in steps:
-    print(step[0], step[1])
+for src, dst in steps:
+    print(src, dst)

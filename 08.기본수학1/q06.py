@@ -1,5 +1,5 @@
 def search(k, n):
-    row = [i for i in range(1, n + 1)]
+    row = [i for i in range(1, n + 1)]  # 0층
     for _ in range(k - 1):
 
         x = 1
